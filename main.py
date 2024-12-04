@@ -1,4 +1,4 @@
-def getMaxVal(items, cap=8):
+def getMaxVal(items, cap=2000):
     n = len(items)
     dp = [[(0, []) for _ in range(cap + 1)] for _ in range(n + 1)]
 
@@ -15,12 +15,19 @@ def getMaxVal(items, cap=8):
     
     return dp[n][cap]
 
-items = [ (5,2), (6,3), (3,1), (2,2), (15,4), (3,1) ] # (value, weight)
-print(getMaxVal(items))
+items = [ (500,10), (300,12), (800,8), (400,6), (500,10), (300, 10), (700,40), (100,15), (200,25), (400,15) ] # (value, weight)
+print(getMaxVal(items, 100))
 
 
-# Gold (bar/ingot)	1	500–1000	Highly valuable, universal currency.
-# Silver (ingot)	1	300–600	Medium-high value, versatile.
-# Gold Jewelry	0.5–1	800–1200	Includes gemstones for added value.
-# Silver Jewelry	0.5–1	400–800	Intricate designs add to value.
-# Gemstone Jewelry	0.2–0.5	1000–2000	higher value than gold and silver due to their rarity, aesthetic appeal, and specialized demand
+# left is weight, right is value
+# Gold (bar/ingot)	10	500	Highly valuable, universal currency.
+# Silver (ingot)	12	300	Medium-high value, versatile.
+# Gold Jewelry	    8	800	Includes gemstones for added value.
+# Silver Jewelry	6	400	Intricate designs add to value.
+# Silk	10	500	Lightweight, high demand for luxury and trade.
+# Bottles of Pepper, Salt	10	300	Spices highly valued historically; lightweight but consumed quickly.
+# Alcohol	40	700	Useful for trade, celebrations, and preservation; moderate value.
+# Wheat	15 100	Heavy but essential for sustenance; low per-unit value.
+# Water	25	200	Essential for survival but low trade value; widely available.
+# Med Kit	15	400	Lightweight and highly 
+
