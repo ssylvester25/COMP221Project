@@ -1,4 +1,8 @@
 from collections import Counter
+
+import tkinter as tk
+from tkinter import ttk
+
 def boundedKnapsack(items, caps, cap=2000):
     """
     Solves the bounded knapsack problem using the min(cap, j / weight) optimization.
@@ -83,5 +87,60 @@ for key in itemCounter:
     print(itemNumToName[key], "is used", itemCounter[key], "times")
 
 
+# GUI Implementation
+def run_knapsack():
+    try:
+        capacity = int(capacity_var.get())
+        new_caps = [int(entry.get()) for entry in cap_entries]
+        result = boundedKnapsack(items, new_caps, capacity)
+        total_value = result[0]
+        itemUsed = result[1]
+        itemCounter = Counter(itemUsed)
 
+        result_text = f"The value gained is: {total_value}\n"
+        for key in itemCounter:
+            result_text += f"{itemNumToName[key]}: {itemCounter[key]} times\n"
+        result_label.config(text=result_text)
+    except ValueError:
+        result_label.config(text="Please enter valid numeric values.")
+
+def reset_inputs():
+    capacity_var.set("100")
+    for i, entry in enumerate(cap_entries):
+        entry.delete(0, tk.END)
+        entry.insert(0, str(caps[i]))
+
+# Main window setup
+root = tk.Tk()
+root.title("Bounded Knapsack Solver")
+
+# Capacity Input
+tk.Label(root, text="Knapsack Capacity:").grid(row=0, column=0, padx=5, pady=5, sticky="e")
+capacity_var = tk.StringVar(value="100")
+tk.Entry(root, textvariable=capacity_var, width=10).grid(row=0, column=1, padx=5, pady=5)
+
+# Item Caps Input
+tk.Label(root, text="Item Caps:").grid(row=1, column=0, padx=5, pady=5, sticky="ne")
+cap_frame = tk.Frame(root)
+cap_frame.grid(row=1, column=1, padx=5, pady=5, sticky="w")
+cap_entries = []
+for i, name in enumerate(itemNumToName.values()):
+    tk.Label(cap_frame, text=name).grid(row=i, column=0, sticky="w")
+    entry = tk.Entry(cap_frame, width=5)
+    entry.insert(0, str(caps[i]))
+    entry.grid(row=i, column=1, padx=5, pady=2)
+    cap_entries.append(entry)
+
+# Buttons
+button_frame = tk.Frame(root)
+button_frame.grid(row=2, column=0, columnspan=2, pady=10)
+
+tk.Button(button_frame, text="Run Knapsack", command=run_knapsack).grid(row=0, column=0, padx=5)
+tk.Button(button_frame, text="Reset", command=reset_inputs).grid(row=0, column=1, padx=5)
+
+# Result Display
+result_label = tk.Label(root, text="", justify="left", anchor="w", width=50, wraplength=400, relief="sunken")
+result_label.grid(row=3, column=0, columnspan=2, padx=10, pady=10, sticky="w")
+
+root.mainloop()
 
